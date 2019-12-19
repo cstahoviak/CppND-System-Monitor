@@ -7,6 +7,21 @@
 #include "process.h"
 #include "processor.h"
 
+/* What is the relationship b/w the System class and the LinuxParser namespace?
+* - System::Uptime() might call the function of the same name in the LinuxParser
+    namespace. System::Uptime() would then be considered a "pass-thru". In this
+    way, an object of the System class would store no data on the system's "uptime".
+
+    Alternately, could store the value returned by System::Uptime() as a private
+    variable (uptime_) of the System class. However, uptime_ and other values like
+    it are dynamic, and so an update function, System::Update() perhaps, could be
+    used to update the stored values within the System class.
+*/
+
+/* GOAL:
+* 
+*/
+
 class System {
  public:
   Processor& Cpu();                   // TODO: See src/system.cpp

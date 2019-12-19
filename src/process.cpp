@@ -30,4 +30,5 @@ long int Process::UpTime() { return 0; }
 
 // TODO: Overload the "less than" comparison operator for Process objects
 // REMOVE: [[maybe_unused]] once you define the function
+// NOTE: sort via CpuUtilization or RAM - use std::sort() to sort processes
 bool Process::operator<(Process const& a[[maybe_unused]]) const { return true; }

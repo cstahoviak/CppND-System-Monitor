@@ -6,6 +6,10 @@
 Basic class for Process representation
 It contains relevant attributes as shown below
 */
+
+// May also choose to implement these functions as "pass-thrus" to the
+// LinuxParser namespace functions
+
 class Process {
  public:
   int Pid();                               // TODO: See src/process.cpp

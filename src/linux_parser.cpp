@@ -12,9 +12,8 @@ using std::vector;
 
 // DONE: An example of how to read data from the filesystem
 string LinuxParser::OperatingSystem() {
-  string line;
-  string key;
-  string value;
+  string line, key, value;
+  
   std::ifstream filestream(kOSPath);
   if (filestream.is_open()) {
     while (std::getline(filestream, line)) {
@@ -35,13 +34,15 @@ string LinuxParser::OperatingSystem() {
 
 // DONE: An example of how to read data from the filesystem
 string LinuxParser::Kernel() {
-  string os, kernel;
-  string line;
+  string line, os, version, kernel;
+
+  // create input filestream
   std::ifstream stream(kProcDirectory + kVersionFilename);
   if (stream.is_open()) {
+    // get line from open stream and store in line var
     std::getline(stream, line);
     std::istringstream linestream(line);
-    linestream >> os >> kernel;
+    linestream >> os >> version >> kernel;
   }
   return kernel;
 }
@@ -65,6 +66,13 @@ vector<int> LinuxParser::Pids() {
   closedir(directory);
   return pids;
 }
+
+/* PARSING STEPS:
+* 1. open file
+* 2. check if file is open
+* 3. loop through lines using getline() until matching 'token' (eg PRETTY_NAME) is found
+* 3. pull lines off file and return part of line that we're interested in
+*/
 
 // TODO: Read and return the system memory utilization
 float LinuxParser::MemoryUtilization() { return 0.0; }

@@ -1,5 +1,10 @@
 #include "processor.h"
 
+// added by me
+#include "linux_parser.h"
+
+using std::vector;
+
 /* BONUS:
 * You might want to update the system monitor to report the current utilization
 * of the processor, rather than the long-term average utilization since boot.
@@ -9,4 +14,11 @@
 */
 
 // TODO: Return the aggregate CPU utilization
-float Processor::Utilization() { return 0.0; }
+float Processor::Utilization() {
+  vector<LinuxParser::CPUStates_> cpu_vec = LinuxParser::CpuUtilization();
+
+  // implement CPU utilization calculation
+
+  return 0.0f;
+
+}

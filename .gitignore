@@ -3,5 +3,6 @@ a.out
 settings.json
 *.o
 build/*
+Debug/*
 *.json
 images/system*.png

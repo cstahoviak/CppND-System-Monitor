@@ -8,6 +8,7 @@
 #include "processor.h"
 #include "system.h"
 
+// added by me
 #include "linux_parser.h"
 
 using std::set;

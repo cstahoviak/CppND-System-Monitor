@@ -153,8 +153,8 @@ vector<LinuxParser::CPUStates_> LinuxParser::CpuUtilization() {
     while (std::getline(filestream, line)) {
       std::istringstream linestream(line);
       linestream >> cpu_id >> cpu.kUser_ >> cpu.kNice_ >> cpu.kSystem_ >>
-      cpu.kIdle_ >> cpu.kIOwait_ >> cpu.kIRQ_ >> cpu.kSoftIRQ_ >> cpu.kSteal_ >>
-      cpu.kGuest_ >> cpu.kGuestNice_;
+        cpu.kIdle_ >> cpu.kIOwait_ >> cpu.kIRQ_ >> cpu.kSoftIRQ_ >> cpu.kSteal_ >>
+        cpu.kGuest_ >> cpu.kGuestNice_;
       if (cpu_id == "intr") {
         break;
       }
@@ -164,7 +164,7 @@ vector<LinuxParser::CPUStates_> LinuxParser::CpuUtilization() {
     }
   }
   return cpu_vec;
-}
+} 
 
 // TODO: Read and return the total number of processes
 int LinuxParser::TotalProcesses() {

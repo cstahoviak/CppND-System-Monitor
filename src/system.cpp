@@ -11,21 +11,15 @@
 // added by me
 #include "linux_parser.h"
 
-using std::set;
-using std::size_t;
-using std::string;
-using std::vector;
-
 // TODO: Return the system's CPU
 Processor& System::Cpu() { return cpu_; }
 
 // TODO: Return a container composed of the system's processes
-vector<Process>& System::Processes() {
-  vector<int> pids{ LinuxParser::Pids() };
-  vector<Process> procs;
+std::vector<Process>& System::Processes() {
+  std::vector<int> pids{ LinuxParser::Pids() };
 
   // catalogue all existing processes
-  set<int> extant_pids;
+  std::set<int> extant_pids;
   for (Process process : processes_) {
     extant_pids.insert(process.Pid());
   }
@@ -39,10 +33,10 @@ vector<Process>& System::Processes() {
     }
   }
 
-  // update CPU utilization (??)
+  // update CPU utilization (maybe?)
 
   // sort processes by CPU utilization
-  std::sort(processes_.begin(), processes_.end(), std::greater<Process>() );
+  std::sort(processes_.begin(), processes_.end(), std::greater<Process>());
 
   return processes_;
   }

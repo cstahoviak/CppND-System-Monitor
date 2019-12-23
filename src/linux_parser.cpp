@@ -122,7 +122,7 @@ long LinuxParser::UpTime() {
     linestream >> uptime >> idletime;
   }
 
-  // long test = std::stol(uptime);
+  long test = std::stol(uptime);
   return std::stol(uptime);   // convert string to long int
 }
 

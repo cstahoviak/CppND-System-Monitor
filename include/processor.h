@@ -6,6 +6,9 @@
 
 class Processor {
   public:
+    Processor() {
+      cpu_vec_.reserve(4);
+    }
     float Utilization();  // TODO: See src/processor.cpp
 
   // TODO: Declare any necessary private members

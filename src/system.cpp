@@ -42,7 +42,7 @@ vector<Process>& System::Processes() {
   // update CPU utilization (??)
 
   // sort processes by CPU utilization
-  std::sort(processes_.begin(), processes_.end(), std::less<Process>() );
+  std::sort(processes_.begin(), processes_.end(), std::greater<Process>() );
 
   return processes_;
   }
@@ -74,6 +74,7 @@ int System::TotalProcesses() {
 
 // TODO: Return the number of seconds since the system started running
 long System::UpTime() {
-  // long test = LinuxParser::UpTime();
-  return LinuxParser::UpTime();
+  long test = LinuxParser::UpTime();
+  return test;
+  // return LinuxParser::UpTime();
 }

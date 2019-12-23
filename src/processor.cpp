@@ -20,6 +20,9 @@ float Processor::Utilization() {
   int delta_total, delta_idle;
   float cpu_usage{0.0f};
 
+  // returning this static value works - something wrong below
+  return 0.10; 
+
   // get current CPU utilization state
   vector<LinuxParser::CPUStates_> cpu_vec = LinuxParser::CpuUtilization();
 
@@ -39,7 +42,7 @@ float Processor::Utilization() {
     delta_total = total - prevTotal;
     delta_idle  = idle - prevIdle;
     
-    cpu_usage = (delta_total - delta_idle) / delta_total;
+    cpu_usage = 100.0 * (delta_total - delta_idle) / delta_total;
 
     // update previous cpu vector
     cpu_vec_ = cpu_vec;

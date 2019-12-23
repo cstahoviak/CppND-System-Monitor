@@ -46,7 +46,9 @@ long Process::UpTime() {
 // REMOVE: [[maybe_unused]] once you define the function
 // NOTE: sort via CpuUtilization or RAM - use std::sort() to sort processes
 // bool Process::operator<(Process const& a[[maybe_unused]]) const { return true; }
-bool Process::operator<(Process const& a) const {
-  return LinuxParser::ProcessCpuUtilization( pid_ ) <
+bool Process::operator>(Process const& a) const {
+  return LinuxParser::ProcessCpuUtilization( pid_ ) >
     LinuxParser::ProcessCpuUtilization( a.pid_ );
+
+  // return LinuxParser::Ram( pid_ ) > LinuxParser::Ram( a.pid_ );
 }

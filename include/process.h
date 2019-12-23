@@ -13,14 +13,14 @@ It contains relevant attributes as shown below
 class Process {
   public:
     // constructor: added by me
-    Process(int pid) : pid_(pid) {}
-    int Pid();                               // TODO: See src/process.cpp
-    std::string User();                      // TODO: See src/process.cpp
-    std::string Command();                   // TODO: See src/process.cpp
-    float CpuUtilization();                  // TODO: See src/process.cpp
-    std::string Ram();                       // TODO: See src/process.cpp
-    long UpTime();                       // TODO: See src/process.cpp
-    bool operator<(Process const& a) const;  // TODO: See src/process.cpp
+    Process(int pid) : pid_(pid) {}         // constructor has no return type
+    int Pid();                              // TODO: See src/process.cpp
+    std::string User();                     // TODO: See src/process.cpp
+    std::string Command();                  // TODO: See src/process.cpp
+    float CpuUtilization();                 // TODO: See src/process.cpp
+    std::string Ram();                      // TODO: See src/process.cpp
+    long UpTime();                          // TODO: See src/process.cpp
+    bool operator>(Process const& a) const; // makes more sense to oveload >
 
   // TODO: Declare any necessary private members
   private:

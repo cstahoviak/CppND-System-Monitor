@@ -20,7 +20,32 @@ using std::vector;
 Processor& System::Cpu() { return cpu_; }
 
 // TODO: Return a container composed of the system's processes
-vector<Process>& System::Processes() { return processes_; }
+vector<Process>& System::Processes() {
+  vector<int> pids{ LinuxParser::Pids() };
+  vector<Process> procs;
+
+  // catalogue all existing processes
+  set<int> extant_pids;
+  for (Process process : processes_) {
+    extant_pids.insert(process.Pid());
+  }
+
+  // add all newly created processes to set
+  for (int pid : pids) {
+    if (extant_pids.find(pid) == extant_pids.end()) {
+      // processes_.emplace_back(pid);
+      Process new_proc = Process(pid);
+      processes_.push_back(new_proc);
+    }
+  }
+
+  // update CPU utilization (??)
+
+  // sort processes by CPU utilization
+  std::sort(processes_.begin(), processes_.end(), std::less<Process>() );
+
+  return processes_;
+  }
 
 // TODO: Return the system's kernel identifier (string)
 std::string System::Kernel() {

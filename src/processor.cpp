@@ -48,6 +48,6 @@ float Processor::Utilization() {
 
   // update previous CPU state
   cpu_state_ = cpu_state;
-
+  
   return cpu_usage_;
 }

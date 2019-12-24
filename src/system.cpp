@@ -3,6 +3,7 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <iostream>
 
 #include "process.h"
 #include "processor.h"
@@ -16,6 +17,7 @@ Processor& System::Cpu() { return cpu_; }
 
 // TODO: Return a container composed of the system's processes
 std::vector<Process>& System::Processes() {
+  // std::cerr << "entering System::Processes" << std::endl;
   std::vector<int> pids{ LinuxParser::Pids() };
 
   // catalogue all existing processes
@@ -37,7 +39,7 @@ std::vector<Process>& System::Processes() {
 
   // sort processes by CPU utilization
   std::sort(processes_.begin(), processes_.end(), std::greater<Process>());
-
+  // std::cerr << "exiting System::Processes" << std::endl;
   return processes_;
   }
 

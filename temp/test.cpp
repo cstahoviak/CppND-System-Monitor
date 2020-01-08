@@ -26,5 +26,10 @@ int main(void) {
     i++;
   }
 
+  int idx = 0;
+  for( int i=0; i<idx-1; i++ ) {
+    std::cout << i << "\n";
+  }
+
   return 0;
 }

@@ -29,14 +29,34 @@ std::string NCursesDisplay::ProgressBar(float percent) {
 }
 
 void NCursesDisplay::DisplaySystem(System& system, WINDOW* window) {
+  // added by me: update CPU utilization
+  system.Cpu().Utilization();
+
   int row{0};
   mvwprintw(window, ++row, 2, ("OS: " + system.OperatingSystem()).c_str());
   mvwprintw(window, ++row, 2, ("Kernel: " + system.Kernel()).c_str());
   mvwprintw(window, ++row, 2, "CPU: ");
   wattron(window, COLOR_PAIR(1));
   mvwprintw(window, row, 10, "");
-  wprintw(window, ProgressBar(system.Cpu().Utilization()).c_str());
+  wprintw(window, ProgressBar(system.Cpu().SingleCpuUsage(0)).c_str());
   wattroff(window, COLOR_PAIR(1));
+
+  // added by me
+  // NOTE: vector::size() is of type std::size_t which is an unsigned type, and
+  // unsigned integers can't represent negative numbers.
+  // Q: is the best way to solve this via a typecast to int? Maybe check if 
+  // system.Cpu().CpuState().size() > zero before for loop?
+  // int temp = (int)system.Cpu().CpuState().size()-1;
+  string cpu_name{""};
+  for (int i=0; i<(int)system.Cpu().CpuState().size()-1; i++) {
+    cpu_name = "CPU" + to_string(i+1) + ": ";
+    mvwprintw(window, ++row, 2, cpu_name.c_str());
+    wattron(window, COLOR_PAIR(1));
+    mvwprintw(window, row, 10, "");
+    wprintw(window, ProgressBar(system.Cpu().SingleCpuUsage(i+1)).c_str());
+    wattroff(window, COLOR_PAIR(1));
+  }
+
   mvwprintw(window, ++row, 2, "Memory: ");
   wattron(window, COLOR_PAIR(1));
   mvwprintw(window, row, 10, "");
@@ -89,7 +109,8 @@ void NCursesDisplay::Display(System& system, int n) {
   start_color();  // enable color
 
   int x_max{getmaxx(stdscr)};
-  WINDOW* system_window = newwin(9, x_max - 1, 0, 0);
+  // WINDOW* system_window = newwin(9, x_max - 1, 0, 0);
+  WINDOW* system_window = newwin(13, x_max - 1, 0, 0);
   WINDOW* process_window =
       newwin(3 + n, x_max - 1, system_window->_maxy + 1, 0);
 

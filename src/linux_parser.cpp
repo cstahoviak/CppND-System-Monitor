@@ -307,7 +307,7 @@ float LinuxParser::ProcessCpuUtilization(int pid) {
   // get process statistics vector
   vector<string> proc_vec = LinuxParser::ProcessStats( pid );
 
-  //get system uptime
+  // get system uptime
   long uptime = LinuxParser::UpTime();
 
   utime     = std::stoi(proc_vec[13]);

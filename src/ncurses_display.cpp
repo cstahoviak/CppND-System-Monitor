@@ -110,7 +110,8 @@ void NCursesDisplay::Display(System& system, int n) {
 
   int x_max{getmaxx(stdscr)};
   // WINDOW* system_window = newwin(9, x_max - 1, 0, 0);
-  WINDOW* system_window = newwin(13, x_max - 1, 0, 0);
+  std::size_t cpu_n = system.Cpu().CpuState().size() - 1;   // get number of CPUs   
+  WINDOW* system_window = newwin(9+(int)cpu_n, x_max - 1, 0, 0);
   WINDOW* process_window =
       newwin(3 + n, x_max - 1, system_window->_maxy + 1, 0);
 

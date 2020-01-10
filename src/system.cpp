@@ -16,9 +16,12 @@
 Processor& System::Cpu() { return cpu_; }
 
 // TODO: Return a container composed of the system's processes
+// 1. Update the processes_ vector
+// 2. return the processes_ vector
 std::vector<Process>& System::Processes() {
   // std::cerr << "entering System::Processes" << std::endl;
-  std::vector<int> pids{ LinuxParser::Pids() };
+  // std::vector<int> pids{ LinuxParser::Pids() };
+  std::vector<int> pids = LinuxParser::Pids();
 
   // catalogue all existing processes
   std::set<int> extant_pids;
@@ -29,11 +32,19 @@ std::vector<Process>& System::Processes() {
   // add all newly created processes to set
   for (int pid : pids) {
     if (extant_pids.find(pid) == extant_pids.end()) {
-      // processes_.emplace_back(pid);
-      Process new_proc = Process(pid);
-      processes_.push_back(new_proc);
+      processes_.emplace_back(pid);
+      // Process new_proc = Process(pid);
+      // processes_.push_back(new_proc);
     }
   }
+
+  // // add all processes to processes_ vector
+  // std::vector<Process> processes;
+  // for (int pid : pids) {
+  //   Process proc_ptr = Process(pid);
+  //   processes.push_back(proc_ptr);
+  // }
+  // processes_ = processes;
 
   // update CPU utilization (maybe?)
 

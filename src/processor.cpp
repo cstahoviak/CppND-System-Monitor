@@ -13,6 +13,15 @@ using std::vector;
 *   delta_active_time_untis / delta_total_time_units
 */
 
+Processor::Processor() {
+  /* NOTE:
+  *   This constructor will initialize the cpu_state_ vector in order to determine
+  *   the number of additional lines to add to the upper box of the NCurses display
+  *   where utilization statistics for individual CPUs will be displayed.
+  */
+  cpu_state_ = LinuxParser::CpuUtilization();
+}
+
 // TODO: Return the aggregate CPU utilization
 // float Processor::Utilization() {
 void Processor::Utilization() {
@@ -31,6 +40,7 @@ void Processor::Utilization() {
   // Note: They WON'T be fist time this function is called.  
 
   // implement CPU utilization calculation
+  // NOTE: if statement made uneccesary by Processor constructor.. will remove
   if( cpu_state_.size() == cpu_state.size() ) {
     for( std::size_t i=0; i<cpu_state_.size(); i++ ) {
       prevIdle = cpu_state_[i].kIdle_ + cpu_state_[i].kIOwait_;

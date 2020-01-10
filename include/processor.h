@@ -6,9 +6,8 @@
 
 class Processor {
   public:
-    // Processor() {
-    //   cpu_state_.reserve(5);    // not sure if this is the right thing to do..
-    // }
+    // added by me: constructor
+    Processor();
     // float Utilization();  // TODO: See src/processor.cpp
     void Utilization();
 

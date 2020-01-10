@@ -38,10 +38,8 @@ long Process::UpTime() {
   return LinuxParser::UpTime( pid_ );
 }
 
-// TODO: Overload the "less than" comparison operator for Process objects
-// REMOVE: [[maybe_unused]] once you define the function
+// TODO: Overload the "greater than" comparison operator for Process objects
 // NOTE: sort via CpuUtilization or RAM - use std::sort() to sort processes
-// bool Process::operator<(Process const& a[[maybe_unused]]) const { return true; }
 bool Process::operator>(Process const& a) const {
   // return LinuxParser::Ram( pid_ ) > LinuxParser::Ram( a.pid_ );
   return LinuxParser::ProcessCpuUtilization( pid_ ) >

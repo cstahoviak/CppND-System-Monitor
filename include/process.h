@@ -24,7 +24,7 @@ class Process {
 
   // TODO: Declare any necessary private members
   private:
-  int pid_{0};    // how would I set this?... with the class constructor?
+    int pid_{0};    // how would I set this?... with the class constructor?
 };
 
 #endif

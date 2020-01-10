@@ -18,6 +18,9 @@ Processor::Processor() {
   *   where utilization statistics for individual CPUs will be displayed.
   */
   cpu_state_ = LinuxParser::CpuUtilization();
+
+  // Maybe also init cpu_usage_ to vector of zeros (0.0f) of size cpu_state_.size()?
+  // How to do this?
 }
 
 // TODO: Return the aggregate CPU utilization
@@ -95,7 +98,7 @@ std::vector<float> Processor::CpuUsage() {
 
 // assessor for private member variable cpu_usage_
 float Processor::CpuUsage(int cpu_n) {
-  // Q: is cpu_n a valid index for cpu_state_ AND cpu_state?
+  // Q: is cpu_n a valid index for cpu_usage_ vector?
   if( !cpu_usage_.empty() ) {
     return cpu_usage_[cpu_n];
   }

@@ -3,8 +3,6 @@
 // added by me
 #include "linux_parser.h"
 
-using std::vector;
-
 /* BONUS:
 * You might want to update the system monitor to report the current utilization
 * of the processor, rather than the long-term average utilization since boot.
@@ -31,7 +29,7 @@ void Processor::Utilization() {
   float cpu_usage{0.0f};
 
   // get current CPU utilization state
-  vector<LinuxParser::CPUStates_> cpu_state = LinuxParser::CpuUtilization();
+  std::vector<LinuxParser::CPUStates_> cpu_state = LinuxParser::CpuUtilization();
 
   // first time updating cpu_usage_ vector?
   bool init_flag = cpu_usage_.empty();
@@ -80,7 +78,7 @@ void Processor::Utilization() {
     // do nothing
   }
 
-  // update previous CPU state
+  // update current CPU state
   cpu_state_ = cpu_state;
   return;
 }
@@ -91,12 +89,12 @@ std::vector<LinuxParser::CPUStates_> Processor::CpuState() {
 }
 
 // assessor for private member variable cpu_usage_
-std::vector<float> Processor::TotalCpuUsage() {
+std::vector<float> Processor::CpuUsage() {
   return cpu_usage_;
 }
 
 // assessor for private member variable cpu_usage_
-float Processor::SingleCpuUsage(int cpu_n) {
+float Processor::CpuUsage(int cpu_n) {
   // Q: is cpu_n a valid index for cpu_state_ AND cpu_state?
   if( !cpu_usage_.empty() ) {
     return cpu_usage_[cpu_n];

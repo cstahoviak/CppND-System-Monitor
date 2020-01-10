@@ -18,10 +18,6 @@
     used to update the stored values within the System class.
 */
 
-/* GOAL:
-* 
-*/
-
 class System {
   public:
     // accessor functions that return refs to private member variables

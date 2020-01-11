@@ -16,10 +16,12 @@
 Processor& System::Cpu() { return cpu_; }
 
 // TODO: Return a container composed of the system's processes
-// 1. Update the processes_ vector
+// 1. update the processes_ vector
 // 2. return the processes_ vector
 std::vector<Process>& System::Processes() {
   // std::cerr << "entering System::Processes" << std::endl;
+
+  // Q: Why does pids have 1000 elements before it's assigned using LinuxParser::Pids()?
   // std::vector<int> pids{ LinuxParser::Pids() };
   std::vector<int> pids = LinuxParser::Pids();
 
@@ -32,27 +34,32 @@ std::vector<Process>& System::Processes() {
   // add all newly created processes to set
   for (int pid : pids) {
     if (extant_pids.find(pid) == extant_pids.end()) {
+      // NOTE: prefer emplace_back() to push_back() for vectors of user-defined types
+      // NOTE: do NOT need to create a new Process object before appending it to
+      // processes_ vector; emplace_back() will append Process object to end of
+      // processes_ vector by passing to emplace_back() the constructor args
       processes_.emplace_back(pid);
-      // Process new_proc = Process(pid);
-      // processes_.push_back(new_proc);
     }
   }
 
-  // // add all processes to processes_ vector
-  // std::vector<Process> processes;
-  // for (int pid : pids) {
-  //   Process proc_ptr = Process(pid);
-  //   processes.push_back(proc_ptr);
-  // }
-  // processes_ = processes;
+  // remove terminated processes from processes_ vector
+  int proc_idx = 0;
+  for (Process process : processes_) {
+    if ( std::find(pids.begin(), pids.end(), process.Pid()) == pids.end() ) {
+      // true if process ID is NOT in pids vector
+      processes_.erase(processes_.begin()+proc_idx);
+    }
+    proc_idx++;
+  }
 
   // update CPU utilization (maybe?)
 
   // sort processes by CPU utilization
   std::sort(processes_.begin(), processes_.end(), std::greater<Process>());
+
   // std::cerr << "exiting System::Processes" << std::endl;
   return processes_;
-  }
+}
 
 // TODO: Return the system's kernel identifier (string)
 std::string System::Kernel() {

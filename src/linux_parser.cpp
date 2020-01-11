@@ -32,6 +32,7 @@ string LinuxParser::OperatingSystem() {
       }
     }
   }
+  filestream.close();
   return value;
 }
 
@@ -48,6 +49,7 @@ string LinuxParser::Kernel() {
     std::istringstream linestream(line);
     linestream >> os >> version >> kernel;
   }
+  stream.close();
   return kernel;
 }
 
@@ -102,6 +104,7 @@ float LinuxParser::MemoryUtilization() {
       }
     }
   }
+  filestream.close();
 
   // implement memory utilization calculation
   float util = values[2] / values[0];
@@ -120,7 +123,7 @@ long LinuxParser::UpTime() {
     std::istringstream linestream(line);
     linestream >> uptime >> idletime;
   }
-
+  stream.close();
   return std::stol(uptime);   // convert string to long int
 }
 
@@ -165,6 +168,7 @@ vector<LinuxParser::CPUStates_> LinuxParser::CpuUtilization() {
       }
     }
   }
+  filestream.close();
   return cpu_vec;
 } 
 
@@ -185,6 +189,7 @@ int LinuxParser::TotalProcesses() {
       }
     }
   }
+  filestream.close();
   return processes;
 }
 
@@ -205,6 +210,7 @@ int LinuxParser::RunningProcesses() {
       }
     }
   }
+  filestream.close();
   return procs_running;
 }
 
@@ -218,7 +224,7 @@ string LinuxParser::Command(int pid) {
     // get line from open stream and store in line var
     std::getline(stream, cmd);
   }
-
+  stream.close();
   return cmd;
 }
 
@@ -234,11 +240,13 @@ string LinuxParser::Ram(int pid) {
       std::replace(line.begin(), line.end(), ':', ' ');
       std::istringstream linestream(line);
       linestream >> key >> value;
-      if (key == "VmSize") {
+      // using VmData and not VmSize at recommendation of reviewer and proc manpages info
+      if (key == "VmData") {
         break;
       }
     }
   }
+  filestream.close();
 
   float ram = std::stof(value) / 1000.0;  // convert kB to MB
   return std::to_string(ram);
@@ -261,7 +269,7 @@ string LinuxParser::Uid(int pid[[maybe_unused]]) {
       }
     }
   }
-
+  filestream.close();
   return value;
 }
 
@@ -285,7 +293,7 @@ string LinuxParser::User(int pid) {
       }
     }
   }
-
+  filestream.close();
   return user;
 }
 
@@ -337,6 +345,6 @@ vector<string> LinuxParser::ProcessStats(int pid) {
       proc_vec.push_back(token);
     }
   }
-
+  stream.close();
   return proc_vec;
 }

@@ -103,7 +103,7 @@ float LinuxParser::MemoryUtilization() {
     }
   }
 
-  // implement memory utilization math
+  // implement memory utilization calculation
   float util = values[2] / values[0];
   return util;
 }
@@ -217,8 +217,6 @@ string LinuxParser::Command(int pid) {
   if (stream.is_open()) {
     // get line from open stream and store in line var
     std::getline(stream, cmd);
-    // std::istringstream linestream(line);
-    // linestream >> cmd;
   }
 
   return cmd;
@@ -242,7 +240,8 @@ string LinuxParser::Ram(int pid) {
     }
   }
 
-  return value;
+  float ram = std::stof(value) / 1000.0;  // convert kB to MB
+  return std::to_string(ram);
 }
 
 // TODO: Read and return the user ID associated with a process
@@ -292,11 +291,11 @@ string LinuxParser::User(int pid) {
 
 // TODO: Read and return the uptime of a process
 // Q: in what units?? clock ticks or seconds?
-// REMOVE: [[maybe_unused]] once you define the function
 long LinuxParser::UpTime(int pid) {
   // get process statistics vector
   vector<string> proc_vec = LinuxParser::ProcessStats( pid );
 
+  // Q: why does the uptime never update?
   return std::stol(proc_vec[21]) / sysconf(_SC_CLK_TCK);
 }
 
@@ -323,8 +322,7 @@ float LinuxParser::ProcessCpuUtilization(int pid) {
   return cpu_usage;
 }
 
-// defined to handle the processing of Process::Uptime() and
-// Process::CpuUtilization
+// defined to handle the processing of Process::Uptime() and Process::CpuUtilization()
 vector<string> LinuxParser::ProcessStats(int pid) {
   string line, token;
   vector<string> proc_vec;

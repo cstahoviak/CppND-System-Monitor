@@ -99,6 +99,7 @@ std::vector<float> Processor::CpuUsage() {
 // assessor for private member variable cpu_usage_
 float Processor::CpuUsage(int cpu_n) {
   // Q: is cpu_n a valid index for cpu_usage_ vector?
+  // NOTE: cpu_usage_ will never be empty if initialized in constructor
   if( !cpu_usage_.empty() ) {
     return cpu_usage_[cpu_n];
   }

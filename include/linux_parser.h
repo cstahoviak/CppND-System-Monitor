@@ -57,10 +57,10 @@ namespace LinuxParser {
   };
   // std::vector<std::string> CpuUtilization();   // why return vector of strings?
   std::vector<CPUStates_> CpuUtilization();
-  long Jiffies();
-  long ActiveJiffies();
-  long ActiveJiffies(int pid);
-  long IdleJiffies();
+  long Jiffies();                 // unused
+  long ActiveJiffies();           // unused
+  long ActiveJiffies(int pid);    // unused 
+  long IdleJiffies();             // unused
 
   // Processes
   std::string Command(int pid);
@@ -68,6 +68,7 @@ namespace LinuxParser {
   std::string Uid(int pid);
   std::string User(int pid);
   long int UpTime(int pid);
+  
   // Processes: added by me
   std::vector<std::string> ProcessStats(int pid);
   float ProcessCpuUtilization(int pid);

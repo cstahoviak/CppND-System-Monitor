@@ -11,7 +11,7 @@ using std::to_string;
 std::string Format::ElapsedTime(long total_secs) {
   int hrs, mins, secs;
 
-  hrs = total_secs / 3600;
+	hrs = total_secs / 3600;
 	total_secs = total_secs % 3600;
 	mins = total_secs / 60;
 	total_secs = total_secs % 60;

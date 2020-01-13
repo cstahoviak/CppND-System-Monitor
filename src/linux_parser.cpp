@@ -164,7 +164,8 @@ vector<LinuxParser::CPUStates_> LinuxParser::CpuUtilization() {
         break;
       }
       else {
-        cpu_vec.push_back(cpu);
+        // NOTE: prefer emplace_back() to push_back() for vectors of user-defined types
+        cpu_vec.emplace_back(cpu);
       }
     }
   }

@@ -13,7 +13,7 @@ class Processor {
 
     // added by me
     std::vector<LinuxParser::CPUStates_> CpuState();  // cpu_state_ accessor fcn
-    std::vector<float> CpuUsage();    // get CPU usage for all CPUs
+    std::vector<float> CpuUsage();            // get CPU usage for all CPUs
     float CpuUsage(std::size_t cpu_n);        // get CPU usage for a single CPU
 
   // TODO: Declare any necessary private members

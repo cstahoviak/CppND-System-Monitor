@@ -18,9 +18,9 @@ Processor::Processor() {
   *   where utilization statistics for individual CPUs will be displayed.
   */
   cpu_state_ = LinuxParser::CpuUtilization();
-
-  // Maybe also init cpu_usage_ to vector of zeros (0.0f) of size cpu_state_.size()?
-  // How to do this?
+  // Q: would a call to vector::reserve improve efficiency? (see line below)
+  // cpu_usage_.reserve(cpu_state_.size());
+  cpu_usage_.insert(cpu_usage_.begin(), cpu_state_.size(), 0.0f);
 }
 
 // TODO: Return the aggregate CPU utilization
@@ -34,51 +34,33 @@ void Processor::Utilization() {
   // get current CPU utilization state
   std::vector<LinuxParser::CPUStates_> cpu_state = LinuxParser::CpuUtilization();
 
-  // first time updating cpu_usage_ vector?
-  bool init_flag = cpu_usage_.empty();
-
-  // Q2: should probably check to see that cpu_state_ and cpu_state are same size (?)
-  // Note: They WON'T be fist time this function is called.  
-
   // implement CPU utilization calculation
-  // NOTE: if statement made uneccesary by Processor constructor.. will remove
-  if( cpu_state_.size() == cpu_state.size() ) {
-    for( std::size_t i=0; i<cpu_state_.size(); i++ ) {
-      prevIdle = cpu_state_[i].kIdle_ + cpu_state_[i].kIOwait_;
-      idle     = cpu_state[i].kIdle_ + cpu_state[i].kIOwait_;
+  for( std::size_t i=0; i<cpu_state_.size(); i++ ) {
+    prevIdle = cpu_state_[i].kIdle_ + cpu_state_[i].kIOwait_;
+    idle     = cpu_state[i].kIdle_ + cpu_state[i].kIOwait_;
 
-      prevNonIdle = cpu_state_[i].kUser_ + cpu_state_[i].kNice_
-        + cpu_state_[i].kSystem_ + cpu_state_[i].kIRQ_
-        + cpu_state_[i].kSoftIRQ_ + cpu_state_[i].kSteal_;
-      nonIdle = cpu_state[i].kUser_ + cpu_state[i].kNice_
-        + cpu_state[i].kSystem_ + cpu_state[i].kIRQ_
-        + cpu_state[i].kSoftIRQ_ + cpu_state[i].kSteal_;
+    prevNonIdle = cpu_state_[i].kUser_ + cpu_state_[i].kNice_
+      + cpu_state_[i].kSystem_ + cpu_state_[i].kIRQ_
+      + cpu_state_[i].kSoftIRQ_ + cpu_state_[i].kSteal_;
+    nonIdle = cpu_state[i].kUser_ + cpu_state[i].kNice_
+      + cpu_state[i].kSystem_ + cpu_state[i].kIRQ_
+      + cpu_state[i].kSoftIRQ_ + cpu_state[i].kSteal_;
 
-      prevTotal = prevIdle + prevNonIdle;
-      total     = idle + nonIdle;
+    prevTotal = prevIdle + prevNonIdle;
+    total     = idle + nonIdle;
 
-      delta_total = total - prevTotal;
-      delta_idle  = idle - prevIdle;
+    delta_total = total - prevTotal;
+    delta_idle  = idle - prevIdle;
 
-      // check for division by zero
-      if( delta_total != 0 ) {
-        cpu_usage = (float)(delta_total - delta_idle) / delta_total;
-      }
-      else {
-        cpu_usage = 0.0f;
-      }
-
-      // updating cpu_usage_ vector different at initialization
-      if( init_flag ) {
-        cpu_usage_.push_back(cpu_usage);
-      }
-      else {
-        cpu_usage_[i] = cpu_usage;
-      }
+    // check for division by zero
+    if( delta_total != 0 ) {
+      cpu_usage = (float)(delta_total - delta_idle) / delta_total;
     }
-  }
-  else {
-    // do nothing
+    else {
+      cpu_usage = 0.0f;
+    }
+    // update cpu utilization
+    cpu_usage_[i] = cpu_usage;
   }
 
   // update current CPU state
@@ -97,10 +79,10 @@ std::vector<float> Processor::CpuUsage() {
 }
 
 // assessor for private member variable cpu_usage_
-float Processor::CpuUsage(int cpu_n) {
+float Processor::CpuUsage(std::size_t cpu_n) {
   // Q: is cpu_n a valid index for cpu_usage_ vector?
   // NOTE: cpu_usage_ will never be empty if initialized in constructor
-  if( !cpu_usage_.empty() ) {
+  if( cpu_n < cpu_usage_.size() ) {
     return cpu_usage_[cpu_n];
   }
   else {
